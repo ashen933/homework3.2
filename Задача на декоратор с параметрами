@@ -13,7 +13,7 @@ def decorator_repeat(call_count, start_sleep_time, factor, border_sleep_time):
                     'Запуск номер {0}. Ожидание: {1} секунд. Результат декорируемой функции = {2}'
                     .format(i + 1, t, func(*args, *kwargs)))
                 if t < border_sleep_time:
-                    t = start_sleep_time * 2 ^ (factor * (i + 1))
+                    t *= factor
                 else:
                     t = border_sleep_time
             print('Конец работы')
@@ -23,7 +23,7 @@ def decorator_repeat(call_count, start_sleep_time, factor, border_sleep_time):
     return retry_decorator
 
 
-@decorator_repeat(4, 2, 1, 10)
+@decorator_repeat(4, 1, 2, 10)
 def summ(a=1, b=2):
     return a + b
 
