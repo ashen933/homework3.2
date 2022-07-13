@@ -1,0 +1,14 @@
+def decorator_cash(func):
+    dt = {}
+
+    def wrapper(*args, **kwargs):
+        if args not in dt:
+            dt[args] = func(*args)
+        return dt[args]
+
+    return wrapper
+
+
+@decorator_cash
+def multiplier(number: int):
+    return number * 2
