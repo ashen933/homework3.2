@@ -1,0 +1,31 @@
+import time
+
+
+def decorator_repeat(call_count, start_sleep_time, factor, border_sleep_time):
+    def retry_decorator(func):
+        def _wrapper(*args, **kwargs):
+            t = start_sleep_time
+            print("Кол-во заупсков = {0}".format(call_count))
+            for i in range(call_count):
+
+                time.sleep(t)
+                print(
+                    'Запуск номер {0}. Ожидание: {1} секунд. Результат декорируемой функции = {2}'
+                    .format(i + 1, t, func(*args, *kwargs)))
+                if t < border_sleep_time:
+                    t = start_sleep_time * 2 ^ (factor * (i + 1))
+                else:
+                    t = border_sleep_time
+            print('Конец работы')
+
+        return _wrapper
+
+    return retry_decorator
+
+
+@decorator_repeat(4, 2, 1, 10)
+def summ(a=1, b=2):
+    return a + b
+
+
+summ(2, 4)
